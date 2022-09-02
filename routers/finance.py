@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, status
-import schemas
+import schemas, oaut2
 from sqlalchemy.orm import Session
 from typing import List
 from database import get_db
@@ -13,5 +13,9 @@ router = APIRouter(
 )
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-def create(request: schemas.Finance, db: Session = Depends(get_db)):
-    return finance.create(request,db)
+def create(request: schemas.Finance,db: Session = Depends(get_db), current_user:schemas.User_id = Depends(oaut2.get_current_user)):
+    return finance.create(request,current_user, db)
+
+@router.get('/', status_code=status.HTTP_202_ACCEPTED, response_model=List[schemas.ShowFinance])
+def all(db:Session = Depends(get_db)):
+    return finance.get_all(db)

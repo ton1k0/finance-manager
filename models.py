@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from database import Base
-import datetime
+from datetime import date
 
 
 class Finance(Base):
@@ -8,7 +8,7 @@ class Finance(Base):
     id = Column(Integer, primary_key=True, index=True)
     operation = Column(String)
     money = Column(Integer)
-    date = datetime.date.today()
+    date = date.today()
     user_id = Column(Integer, ForeignKey('users.id'))
 
 

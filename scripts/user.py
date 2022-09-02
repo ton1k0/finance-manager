@@ -1,11 +1,11 @@
 from fastapi import Depends
-import schemas, models
+import schemas, models, hashing
 from sqlalchemy.orm import Session
 from database import get_db
 
 
 def create_user(request: schemas.User, db: Session = Depends(get_db)):
-    new_user = models.User(name=request.name,money=request.money, password=request.password)
+    new_user = models.User(name=request.name, money=request.money, password=hashing.Hash.bcrypt(request.password))
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
