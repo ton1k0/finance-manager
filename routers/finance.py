@@ -19,3 +19,13 @@ def create(request: schemas.Finance,db: Session = Depends(get_db), current_user:
 @router.get('/', status_code=status.HTTP_202_ACCEPTED, response_model=List[schemas.ShowFinance])
 def all(db:Session = Depends(get_db)):
     return finance.get_all(db)
+
+
+@router.get('/history/all', response_model= List[schemas.Operation])
+def get_user_history(db:Session = Depends(get_db),current_user:schemas.User_id = Depends(oaut2.get_current_user)):
+    return finance.get_all_user_history(db,current_user)
+
+
+@router.get('/history/month', response_model= schemas.Operations)
+def get_user_month_history(db:Session = Depends(get_db), current_user:schemas.User_id = Depends(oaut2.get_current_user)):
+    return  finance.get_user_month_history(db,current_user)

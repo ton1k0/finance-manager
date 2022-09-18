@@ -1,6 +1,9 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+import datetime
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy.orm import relationship
 from database import Base
-from datetime import date
+from sqlalchemy.sql import func
+
 
 
 class Finance(Base):
@@ -8,9 +11,10 @@ class Finance(Base):
     id = Column(Integer, primary_key=True, index=True)
     operation = Column(String)
     money = Column(Integer)
-    date = date.today()
+    create_date = Column(DateTime, default=func.now())
     user_id = Column(Integer, ForeignKey('users.id'))
 
+    creator = relationship("User", back_populates="finances")
 
 class User(Base):
     __tablename__ = 'users'
@@ -18,3 +22,5 @@ class User(Base):
     name = Column(String)
     money = Column(Integer)
     password = Column(String)
+
+    finances = relationship('Finance', back_populates='creator')

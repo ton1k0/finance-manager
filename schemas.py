@@ -1,12 +1,12 @@
-from typing import Optional
-
+from typing import Optional, List
 from pydantic import BaseModel
 from datetime import date
+
+
 
 class FinanceBase(BaseModel):
     operation: str
     money: int
-    date: date
 
 
 class Finance(FinanceBase):
@@ -32,7 +32,24 @@ class User_id(BaseModel):
 class ShowFinance(BaseModel):
     operation: str
     money: int
-    date: date
+    create_date: date
+    creator: ShowUser
+    class Config():
+        orm_mode=True
+
+
+class Operation(BaseModel):
+    operation: str
+    money: int
+    create_date: date
+    class Config():
+        orm_mode=True
+
+
+class Operations(BaseModel):
+    operations: List[Operation]
+    stonks: int
+    expenses: int
     class Config():
         orm_mode=True
 

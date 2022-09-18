@@ -1,5 +1,6 @@
+from typing import List
 from fastapi import APIRouter, Depends
-import schemas
+import schemas, oaut2
 from sqlalchemy.orm import Session
 from database import get_db
 from scripts import user
